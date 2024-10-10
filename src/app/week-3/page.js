@@ -2,7 +2,7 @@ import Link from "next/link"
 import ItemList from "./item-list"
 export default function Page(){
     return(
-        <main className="bg-cyan-950">
+        <main>
             <section>
                 <ItemList>
                 </ItemList>
