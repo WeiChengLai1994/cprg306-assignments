@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 
-export default function NewItem() {
+export default function NewItem({ onAddItem }) {  // 接收 onAddItem
     const [count, setCount] = useState(1);
     const [name, setName] = useState("");
     const [category, setCategory] = useState("Produce");
@@ -10,24 +10,26 @@ export default function NewItem() {
     const handleSubmit = (e) => {
         e.preventDefault();
         const item = {
+            id: Date.now(),  // 为新项生成唯一 ID
             name: name,
             quantity: count,
             category: category,
         };
 
+        onAddItem(item);  // 调用 onAddItem 以添加新项
         console.log(item);
         alert(`Name: ${name}, Quantity: ${count}, Category: ${category}`);
         setName("");
         setCount(1);
         setCategory("Produce");
     };
-    
+
     const increment = () => setCount(prevCount => Math.min(21, prevCount + 1));
     const decrement = () => setCount(prevCount => Math.max(0, prevCount - 1));
 
     return (
         <form onSubmit={handleSubmit} className="bg-slate-400 flex flex-col items-center w-80 p-4 mt-4 rounded-2xl">
-            {/* 名字輸入框 */}
+            {/* 名字输入框 */}
             <input
                 type="text"
                 value={name}
@@ -35,19 +37,17 @@ export default function NewItem() {
                 placeholder="Items Name"
                 className="mb-4 p-2 border border-gray-300 rounded-lg"
             />
-
-            {/* 類別選擇框和數量控制按鈕 */}
+            {/* 类别选择框和数量控制按钮 */}
             <div className="flex items-center justify-between w-full mb-4">
-                {/* 類別選擇框 */}
                 <select
                     value={category}
-                    onChange={(e) => setCategory(e.target.value)} // 更新類別
+                    onChange={(e) => setCategory(e.target.value)} // 更新类别
                     className="p-2 border border-gray-300 rounded-lg flex-grow"
                 >
                     <option value="Produce">Produce</option>
                     <option value="Dairy">Dairy</option>
                     <option value="Meat">Meat</option>
-                    <option value="Frozen Foods">Frozen Food</option>
+                    <option value="Frozen Foods">Frozen Foods</option>
                     <option value="Canned Goods">Canned Goods</option>
                     <option value="Dry Goods">Dry Goods</option>
                     <option value="Beverages">Beverages</option>
@@ -55,8 +55,6 @@ export default function NewItem() {
                     <option value="Household">Household</option>
                     <option value="Others">Others</option>
                 </select>
-
-                {/* 數量控制按鈕 */}
                 <div className="flex items-center w-32 ml-4">
                     <button
                         type="button"
@@ -79,8 +77,6 @@ export default function NewItem() {
                     </button>
                 </div>
             </div>
-
-            {/* 提交按鈕 */}
             <button
                 type="submit"
                 className="mt-4 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
