@@ -3,10 +3,10 @@
 import Link from "next/link";
 import ItemList from "./item-list";
 import NewItem from "./new-item";
-import itemData from "./items.json";
 import MealComponent from "./meal-ideas"; // Rename MealIdeas to MealComponent
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useUserAuth } from "../_utils/auth-context"; // Adjusted path
+import {getItem, setItem} from "../_services/shopping-list-service"; // Adjusted path
 
 const removeEmoji = (text) => {
     return text.replace(/([\u2700-\u27BF]|[\uE000-\uF8FF]|\uD83C[\uDC00-\uDFFF]|\uD83D[\uDC00-\uDFFF]|[\u2011-\u26FF]|\uD83E[\uDD10-\uDDFF])/g, '');
@@ -16,6 +16,21 @@ export default function Page() {
     const { user, gitHubSignIn, firebaseSignOut } = useUserAuth(); // Fetch user auth state
     const [items, setItems] = useState(itemData);
     const [selectedItem, setSelectedItem] = useState("");
+
+
+    useEffect(() => {
+        const fetchItems = async () => {
+            if (user) {
+                try{
+                    const items = await getItem(user.uid);
+                    setItems(items || []);
+                } catch (e) {
+                    console.error("Error in fetchItems", e);
+                }
+            }
+        };
+        fetchItems();
+    },[]);
 
     // Function to handle adding a new item
     const handleAddItem = async (newItem) => {
