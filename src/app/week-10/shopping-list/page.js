@@ -6,7 +6,7 @@ import NewItem from "./new-item";
 import MealComponent from "./meal-ideas"; // Rename MealIdeas to MealComponent
 import { useState, useEffect } from "react";
 import { useUserAuth } from "../_utils/auth-context"; // Adjusted path
-import {getItem, setItem} from "../_services/shopping-list-service"; // Adjusted path
+import {getItem, addItem} from "../_services/shopping-list-service"; // Adjusted path
 
 const removeEmoji = (text) => {
     return text.replace(/([\u2700-\u27BF]|[\uE000-\uF8FF]|\uD83C[\uDC00-\uDFFF]|\uD83D[\uDC00-\uDFFF]|[\u2011-\u26FF]|\uD83E[\uDD10-\uDDFF])/g, '');
@@ -14,7 +14,7 @@ const removeEmoji = (text) => {
 
 export default function Page() {
     const { user, gitHubSignIn, firebaseSignOut } = useUserAuth(); // Fetch user auth state
-    const [items, setItems] = useState(itemData);
+    const [items, setItems] = useState([]);
     const [selectedItem, setSelectedItem] = useState("");
 
 

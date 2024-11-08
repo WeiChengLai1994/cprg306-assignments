@@ -31,7 +31,7 @@ export default function Page() {
         <main>
             <h1>Week 9 Shopping List App</h1>
             <button onClick={logout}>Logout</button>
-            <Link href="/week-9/shopping-list">
+            <Link href="/week-10/shopping-list">
                 Go to Shopping List
             </Link>
         </main>
